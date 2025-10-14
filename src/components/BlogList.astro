@@ -1,0 +1,25 @@
+--- 
+import fs from 'fs';
+import path from 'path';
+const postsDir = path.resolve('./src/content/blog');
+const files = fs.readdirSync(postsDir).filter(f => f.endsWith('.md'));
+const posts = files.map(f => {
+  const raw = fs.readFileSync(path.join(postsDir, f), 'utf-8');
+  const match = raw.match(/---\n([\s\S]*?)\n---/);
+  let meta = {};
+  if (match) {
+    const lines = match[1].split('\n').map(l=>l.split(':').map(s=>s.trim()));
+    lines.forEach(arr => { if(arr[0]) meta[arr[0]] = arr.slice(1).join(':').trim().replace(/"/g,''); });
+  }
+  return { file: f, meta };
+});
+---
+<ul class="list-unstyled">
+  {posts.map(p => (
+    <li class="mb-3">
+      <a href={`/blog/${p.file.replace('.md','')}`}><strong>{p.meta.title}</strong></a>
+      <div class="text-muted small">{p.meta.pubDate}</div>
+      <p class="text-muted">{p.meta.description}</p>
+    </li>
+  ))}
+</ul>

@@ -1,0 +1,17 @@
+--- 
+import fs from 'fs';
+import path from 'path';
+const { params } = Astro;
+const slug = params.slug;
+const file = path.resolve('./src/content/blog/' + slug + '.md');
+const raw = fs.existsSync(file) ? fs.readFileSync(file, 'utf-8') : '# Artikel tidak ditemukan';
+---
+<html>
+  <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+  <body class="container py-5">
+    <a href="/">&larr; Kembali</a>
+    <article>
+      <astro-fragment set:raw>{raw}</astro-fragment>
+    </article>
+  </body>
+</html>

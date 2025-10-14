@@ -1,0 +1,31 @@
+{
+  "services": [
+    {
+      "id": "pra-nikah",
+      "title": "Pra-Nikah",
+      "desc": "Konsultasi persiapan pernikahan."
+    },
+    {
+      "id": "pasca-nikah",
+      "title": "Pasca-Nikah",
+      "desc": "Pendampingan penyesuaian rumah tangga."
+    },
+    {
+      "id": "bimbingan-keluarga",
+      "title": "Bimbingan Keluarga",
+      "desc": "Konseling keluarga & parenting."
+    }
+  ],
+  "counselors": [
+    {
+      "name": "Ust. Ahmad",
+      "specialty": "Keluarga",
+      "contact": "wa:+62811111111"
+    },
+    {
+      "name": "Siti, M.Psi",
+      "specialty": "Psikolog",
+      "contact": "wa:+62822222222"
+    }
+  ]
+}
