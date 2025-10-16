@@ -1,17 +1,41 @@
---- 
+---
 import fs from 'fs';
 import path from 'path';
+
+// Fungsi wajib untuk dynamic route di Astro
+export async function getStaticPaths() {
+  const blogDir = './src/content/blog';
+  const files = fs.existsSync(blogDir)
+    ? fs.readdirSync(blogDir).filter(f => f.endsWith('.md'))
+    : [];
+
+  // Hasilkan daftar slug dari nama file markdown
+  const paths = files.map(file => ({
+    params: { slug: file.replace('.md', '') }
+  }));
+
+  // Jika tidak ada file, minimal kembalikan 1 agar build tidak gagal
+  return paths.length ? paths : [{ params: { slug: 'contoh' } }];
+}
+
+// Ambil slug dari parameter URL
 const { params } = Astro;
 const slug = params.slug;
+
+// Baca konten markdown dari folder /src/content/blog
 const file = path.resolve('./src/content/blog/' + slug + '.md');
 const raw = fs.existsSync(file) ? fs.readFileSync(file, 'utf-8') : '# Artikel tidak ditemukan';
 ---
+
 <html>
-  <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
   <body class="container py-5">
     <a href="/">&larr; Kembali</a>
     <article>
-      <astro-fragment set:raw>{raw}</astro-fragment>
+      <astro-fragment set:html={raw}></astro-fragment>
     </article>
   </body>
 </html>
